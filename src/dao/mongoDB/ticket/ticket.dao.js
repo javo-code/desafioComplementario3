@@ -1,4 +1,4 @@
-import { TicketModel } from "./models/ticket.model.js";
+import { TicketModel } from "./ticket.model.js";
 
 export default class TicketDaoMongoDB {
     async create(obj) {

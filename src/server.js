@@ -1,4 +1,4 @@
-import './db/database.js';
+import './config/connection.js';
 import express from 'express';
 import morgan from 'morgan';
 import userRouter from './routes/users.router.js';

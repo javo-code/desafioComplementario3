@@ -1,7 +1,7 @@
-import ProductDaoMongoDB from "../daos/mongodb/product.dao.js";
+import ProductDaoMongoDB from "../dao/mongoDB/products/product.dao.js";
 const prodDao = new ProductDaoMongoDB();
 
-import CartDaoMongoDB from "../daos/mongodb/cart.dao.js";
+import CartDaoMongoDB from "../dao/mongoDB/cart/cart.dao.js";
 const cartDao = new CartDaoMongoDB();
 
 export const getAll = async () => {
@@ -58,11 +58,9 @@ export const addProdToCart = async (cartId, prodId) => {
     const existCart = await getById(cartId);
     console.log("existCart-->", existCart);
     if (!existCart) return false;
-
     const existProd = await prodDao.getById(prodId);
     console.log("existProd-->", existProd);
     if (!existProd) return false;
-      //SI EXISTE, aumenta quantity++
     const existProdInCart = existCart.products.find((p)=>p.product._id.toString() === prodId.toString());
     if(existProdInCart) {
       existProdInCart.quantity++;
