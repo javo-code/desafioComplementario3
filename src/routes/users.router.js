@@ -15,7 +15,7 @@ router.put("/:id", controller.update);
 
 router.delete("/:id", controller.delete);
 
-router.post("/register",  controller.register);
+router.post("/register", controller.register);
 
 router.post("/login", controller.login);
 

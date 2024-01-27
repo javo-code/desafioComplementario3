@@ -21,16 +21,16 @@ export default class UserService extends Services {
 async register(user) {
     try {
       const { email, password } = user;
-      const existUser = await UserModel.findOne({ email });
+      const existUser = await userDao.getByEmail(email);
       if (!existUser) {
         if (email === 'adminCoder@coder.com' && password === 'adminCod3r123') {
-          return await UserModel.create({
+          return await userDao.create({
             ...user,
             password: createHash(password),
             role: 'admin'
           });
         }
-        return await UserModel.create({
+        return await this.create({
           ...user,
           password: createHash(password),
         });
@@ -43,7 +43,7 @@ async register(user) {
 
   async login(user) {
     try {
-      const userExist = await userDao.login(user);
+      const userExist = await userDao.loginUser(user);
       if(userExist) return this.#generateToken(userExist);
       else return false;
     } catch (error) {
