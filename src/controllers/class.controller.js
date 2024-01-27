@@ -7,7 +7,7 @@ export default class Controllers {
   getAll = async (req, res, next) => {
     try {
       const items = await this.service.getAll();
-      createResponse(res, 200, items);
+      res.status(200).json(items);
     } catch (error) {
       next(error.message);
     }

@@ -1,19 +1,21 @@
 import { Schema, model } from "mongoose";
 
+export const cartCollectionName = "carts";
+
 export const cartSchema = new Schema({
-    products: [
+    carts: [
       {
         _id: false,
         quantity: {
           type: Number,
           default: 1 
         },
-        product: {
+        cart: {
           type: Schema.Types.ObjectId,
-          ref: "products" // Referencia al modelo de productos
+          ref: "carts" // Referencia al modelo de cartos
         }
       }
     ]
   });
 
-export const CartModel = model("carts", cartSchema);
+export const CartModel = model(cartCollectionName, cartSchema);

@@ -7,4 +7,4 @@ export const messageSchema = new Schema({
     message: { type:String, required: true}
 });
 
-export const MessageModel = model(messageCollectionName, messageSchema);
+export const ChatModel = model(messageCollectionName, messageSchema);

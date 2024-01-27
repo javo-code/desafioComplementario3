@@ -1,12 +1,23 @@
 import { Router } from "express";
-import { register, login } from "../controllers/user.controller.js";
 import { verifyToken } from "../middlewares/verifyToken.js";
+import UserCntroller from "../controllers/user.controller.js"
 
 const router = Router();
+const controller = new UserCntroller();
 
-router.post("/register", register);
+router.get("/", controller.getAll);
 
-router.post("/login", login);
+router.get("/:id", controller.getById);
+
+router.post("/", controller.create);
+
+router.put("/:id", controller.update);
+
+router.delete("/:id", controller.delete);
+
+router.post("/register",  controller.register);
+
+router.post("/login", controller.login);
 
 router.get("/private", verifyToken, (req, res) => {
   const { first_name, last_name, email, role } = req.user;

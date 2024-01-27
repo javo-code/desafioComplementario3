@@ -7,8 +7,5 @@ export const ticketSchema = new Schema({
   purchaser: { type: String, required: true },
 });
 
-export const TicketModel = model(
-  'ticket',
-  ticketSchema
-);
+export const TicketModel = model( 'ticket', ticketSchema);
 

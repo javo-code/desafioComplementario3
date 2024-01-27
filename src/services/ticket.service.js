@@ -1,9 +1,9 @@
 import TicketDaoMongoDB from "../dao/mongoDB/ticket/ticket.dao.js";
 const ticketDao = new TicketDaoMongoDB();
 
-import { getById as getCartById } from "./cart.services.js";
-import { getByIdUser } from "./user.services.js";
-import { getById as getProdById } from "./product.services.js";
+import getCartById from "../dao/mongoDB/mongo.dao.js";
+import getByIdUser from "./user.services.js";
+import getProdById from "./product.services.js";
 
 import { v4 as uuidv4 } from 'uuid';
 

@@ -1,36 +1,47 @@
-import UserDaoMongoDB from "../dao/mongoDB/users/user.dao.js";
-import { generateToken } from "../jwt/auth.js";
-const userDao = new UserDaoMongoDB();
+import Controllers from "./class.controller.js";
+import UserService from "../services/user.services.js";
+import { createResponse } from "../utils.js";
+const userService = new UserService();
 
-export const register = async (req, res, next) => {
-  try {
-    const { first_name, last_name, email, age, password } = req.body;
-    const exist = await userDao.getByEmail(email);
-    if (exist) return res.status(400).json({ msg: "User already exists" });
-    const user = { first_name, last_name, email, age, password };
-    const newUser = await userDao.createUser(user);
-    res.json({
-      msg: "Register OK",
-      newUser,
-    });
-  } catch (error) {
-    next(error);
+export default class UserController extends Controllers {
+  constructor() {
+    super(userService);
   }
-};
 
-export const login = async (req, res, next) => {
-  try {
-    const { email, password } = req.body;
-    const user = await userDao.loginUser({ email, password });
-    if (!user) res.json({ msg: "invalid credentials" });
-    else{
-
-      const access_token = generateToken(user);
-      res
-        .header("Authorization", access_token)
-        .json({ msg: "Login OK", access_token });
+  register = async (req, res, next) => {
+    try {
+      const newUser = await userService.register(req.body);
+      if (!newUser) createResponse(res, 404, "User already exist");
+      else createResponse(res, 200, newUser);
+    } catch (error) {
+      next(error.message);
     }
-  } catch (error) {
-    next(error);
-  }
-};
+  };
+
+  login = async (req, res, next) => {
+    try {
+      const token = await userService.login(req.body);
+      if (!token) createResponse(res, 404, "Error login");
+      else {
+        res.header("Authorization", token);
+        createResponse(res, 200, token);
+      }
+    } catch (error) {
+      next(error.message);
+    }
+  };
+
+  profile = (req, res, next) => {
+    try {
+      const { first_name, last_name, email, role } = req.user;
+      createResponse(res, 200, {
+        first_name,
+        last_name,
+        email,
+        role,
+      });
+    } catch (error) {
+      next(error.message);
+    }
+  };
+}

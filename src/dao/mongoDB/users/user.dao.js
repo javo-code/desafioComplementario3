@@ -1,29 +1,11 @@
-import { userModel } from './user.model.js';
-import { createHash, isValidPassword } from '../../../utils.js';
+import MongoDao from "../mongo.dao.js";
+import { UserModel } from "./user.model.js";
 
-export default class UserDaoMongoDB {
-  async createUser(user) {
-    try {
-      const { email, password } = user;
-      const existUser = await userModel.findOne({email});
-      if(!existUser){
-        if(email === 'adminCoder@coder.com' && password === 'adminCoder123'){
-          const newUser = await userModel.create({...user, password: createHash(password), role: 'admin'})
-          return newUser;
-        } else {
-          const newUser = await userModel.create({...user, password: createHash(password)})
-          return newUser;
-        }
-      } else {
-        return false;
-      }
-    } catch (error) {
-      console.log(error)
-      throw new Error(error)
-    }
+export default class UserMongoDao extends MongoDao {
+  constructor() {
+    super(UserModel);
   }
-
-  async loginUser(user){
+    async loginUser(user){
     try {
       const { email, password } = user;
       // console.log(email);
@@ -33,32 +15,6 @@ export default class UserDaoMongoDB {
         const passValid = isValidPassword(userExist, password)
         if(!passValid) return false
         else return userExist
-      } return false
-    } catch (error) {
-      console.log(error)
-      throw new Error(error)
-    }
-  }
-
-  async getById(id){
-    try {
-      const userExist = await userModel.findById(id)
-      // console.log(userExist);
-      if(userExist){
-       return userExist
-      } return false
-    } catch (error) {
-      console.log(error)
-      // throw new Error(error)
-    }
-  }
-
-  async getByEmail(email){
-    try {
-      const userExist = await userModel.findOne({email}); 
-      console.log(userExist);
-      if(userExist){
-       return userExist
       } return false
     } catch (error) {
       console.log(error)
