@@ -1,26 +1,27 @@
-import TicketDaoMongoDB from "../dao/mongoDB/ticket/ticket.dao.js";
-const ticketDao = new TicketDaoMongoDB();
-
-import getCartById from "../dao/mongoDB/mongo.dao.js";
-import getByIdUser from "./user.services.js";
-import getProdById from "./product.services.js";
+import TicketMongoDao from "../dao/mongoDB/ticket/ticket.dao.js";
+const ticketDao = new TicketMongoDao();
+import UserMongoDao from "../dao/mongoDB/users/user.dao.js";
+const userDao = new UserMongoDao();
+import CartMongoDao from "../dao/mongoDB/cart/cart.dao.js";
+const cartDao = new CartMongoDao();
+import ProductMongoDao from "../dao/mongoDB/products/product.dao.js";
+const prodDao = new ProductMongoDao();
 
 import { v4 as uuidv4 } from 'uuid';
 
 export const generateTicket = async (userId, cartId) => {
   try {
-    //buscar el usuario
-    const user = await getByIdUser(userId);
+    
+    const user = await userDao.getById(userId);
     if(!user) return false;
-
-    //buscar el carrito
-    const cart = await getCartById(cartId);
+    
+    const cart = await cartDao.getById(cartId);
     if(!cart) return false;
 
     let amountAcc = 0;
     for (const p of cart.products) {
       const idProd = p.product._id.toString();
-      const prodFromDB = await getProdById(idProd);
+      const prodFromDB = await prodDao.getById(idProd);
       
       //verifico si la cantidad que tengo en el carrito supera al stock del producto en db
       if(p.quantity <= prodFromDB.stock){
@@ -37,7 +38,7 @@ export const generateTicket = async (userId, cartId) => {
       purchaser: user.email
     });
 
-    //vaciar el carrito
+    //vaciar el cart
     cart.products = [];
     cart.save();
 

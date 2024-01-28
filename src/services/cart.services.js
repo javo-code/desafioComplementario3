@@ -1,6 +1,8 @@
 import Services from "./class.services.js";
 import CartMongoDao from "../dao/mongoDB/cart/cart.dao.js";
 const cartDao = new CartMongoDao();
+import ProdMongoDao from "../dao/mongoDB/products/product.dao.js";
+const prodDao = new ProdMongoDao();
 
 export default class CartService extends Services {
   constructor() {
@@ -9,12 +11,14 @@ export default class CartService extends Services {
 
   async addProdToCart(cartId, prodId) {
     try {
-      const existCart = await getById(cartId);
+      const existCart = await cartDao.getById(cartId);
       console.log("existCart-->", existCart);
       if (!existCart) return false;
+
       const existProd = await prodDao.getById(prodId);
       console.log("existProd-->", existProd);
       if (!existProd) return false;
+      //SI EXISTE, aumenta quantity++
       const existProdInCart = existCart.products.find((p) => p.product._id.toString() === prodId.toString());
       if (existProdInCart) {
         existProdInCart.quantity++;
@@ -28,9 +32,9 @@ export default class CartService extends Services {
     }
   };
 
-  async removeProdInCart(cartId, prodId) {
+  async removeProdToCart(cartId, prodId) {
     try {
-      const existCart = await getById(cartId);
+      const existCart = await cartDao.getById(cartId);
       console.log("existCart-->", existCart);
       if (!existCart) return false;
   
@@ -46,7 +50,7 @@ export default class CartService extends Services {
 
   async updateProdQuantityToCart(cartId, prodId, quantity) {
     try {
-      const existCart = await getById(cartId);
+      const existCart = await cartDao.getById(cartId);
       console.log("existCart-->", existCart);
       if (!existCart) return false;
   
@@ -71,4 +75,4 @@ export default class CartService extends Services {
       console.log(error);
     }
   };
-}
+};

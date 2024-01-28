@@ -1,64 +1,68 @@
-// cart.controller.js
 import Controllers from "./class.controller.js";
 import CartService from "../services/cart.services.js";
 const cartService = new CartService();
 
 export default class CartController extends Controllers {
   constructor() {
-    super(cartService);
+    super(new CartService());
   }
 
-  addProdToCart = async (req, res, next) => {
+  async addProdToCart (req, res, next){
     try {
-      const newItem = await this.service.addProdToCart(req.params.idCart, req.params.idProd);
-      if (!newItem) {
-        res.status(404).json({ error: "Error adding product to cart!" });
-      } else {
-        res.status(200).json(newItem);
-      }
-    } catch (error) {
-      next(error.message);
-    }
-  };
-
-  removeProdToCart = async (req, res, next) => {
-    try {
-      const result = await this.service.removeProdToCart(req.params.idCart, req.params.idProd);
-      if (!result) {
-        res.status(404).json({ error: "Error removing product from cart!" });
-      } else {
-        res.status(200).json({ message: "Product removed from cart successfully!" });
-      }
-    } catch (error) {
-      next(error.message);
-    }
-  };
-
-  updateQuantity = async (req, res, next) => {
-    try {
-      const result = await this.service.updateProdQuantityToCart(
-        req.params.idCart,
-        req.params.idProd,
-        req.body.quantity
+      const { idCart } = req.params;
+      const { idProd } = req.params;
+      const newProdToUserCart = await cartService.addProdToCart(
+        idCart,
+        idProd,
       );
-      if (!result) {
-        res.status(404).json({ error: "Error updating product quantity in cart!" });
-      } else {
-        res.status(200).json({ message: "Product quantity updated in cart successfully!" });
-      }
+      if (!newProdToUserCart) res.json({ msg: "Error add product to cart" });
+      else res.json(newProdToUserCart);
+    } catch (error) {
+      console.log("👹Error desde el addProd del carts.controller:",error); // Agrega un registro de depuración
+      next(error.message);
+    }
+  };
+
+  async removeProdToCart (req, res, next){
+    try {
+      const { idCart } = req.params;
+      const { idProd } = req.params;
+      const delProdToUserCart = await cartService.removeProdToCart(
+        idCart,
+        idProd,
+      );
+      if (!delProdToUserCart) res.json({ msg: "Error remove product to cart" });
+      else res.json({msg: `product ${idProd} deleted to cart`});
     } catch (error) {
       next(error.message);
     }
   };
 
-  clearCart = async (req, res, next) => {
+  async updateProdQuantityToCart (req, res, next){
     try {
-      const result = await this.service.clearCart(req.params.idCart);
-      if (!result) {
-        res.status(404).json({ error: "Error clearing the cart!" });
-      } else {
-        res.status(200).json({ message: "Cart cleared successfully!" });
-      }
+      const { idCart } = req.params;
+      const { idProd } = req.params;
+      const { quantity } = req.body;
+      const  updateProdQuantity = await this.service.updateProdQuantityToCart(
+        idCart,
+        idProd,
+        quantity
+      );
+      if (!updateProdQuantity) res.json({ msg: "Error update product quantity to cart" });
+      else res.json(updateProdQuantity);
+    } catch (error) {
+      next(error.message);
+    }
+  };
+
+  async clearCart (req, res, next){
+    try {
+      const { idCart } = req.params;
+      const clearCart = await this.service.clearCart(
+        idCart,
+      );
+      if (!clearCart) res.json({ msg: "Error clear cart" });
+      else res.json(clearCart);
     } catch (error) {
       next(error.message);
     }

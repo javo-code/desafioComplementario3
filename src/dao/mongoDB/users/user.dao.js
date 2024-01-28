@@ -24,20 +24,6 @@ export default class UserMongoDao extends MongoDao {
     }
   }
 
-  
-  async getByEmail(email){
-    try {
-      const userExist = await UserModel.findOne({email}); 
-      // console.log(userExist);
-      if(userExist){
-       return userExist
-      } return false
-    } catch (error) {
-      console.log(error)
-      throw new Error(error)
-    }
-  }
-
 async createUser(user) {
     try {
       const { email, password } = user;
@@ -59,6 +45,19 @@ async createUser(user) {
       } else {
         return false;
       }
+    } catch (error) {
+      console.log(error)
+      throw new Error(error)
+    }
+  }
+
+    async getByEmail(email){
+    try {
+      const userExist = await this.model.findOne({email}); 
+      console.log(userExist);
+      if(userExist){
+        return userExist
+      } return false
     } catch (error) {
       console.log(error)
       throw new Error(error)

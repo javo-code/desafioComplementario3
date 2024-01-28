@@ -3,17 +3,17 @@ import { Schema, model } from "mongoose";
 export const cartCollectionName = "carts";
 
 export const cartSchema = new Schema({
-    carts: [
+    products: [
       {
         _id: false,
+        product: {
+          type: Schema.Types.ObjectId,
+          ref: "products" // Referencia al modelo de productos
+        },
         quantity: {
           type: Number,
           default: 1 
         },
-        cart: {
-          type: Schema.Types.ObjectId,
-          ref: "carts" // Referencia al modelo de cartos
-        }
       }
     ]
   });
