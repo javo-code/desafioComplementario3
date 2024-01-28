@@ -18,46 +18,23 @@ export default class UserService extends Services {
     return jwt.sign(payload, SECRET_KEY_JWT, { expiresIn: "10m" });
   }
 
-async register(user) {
-    try {
-      const { email, password } = user;
-      const existUser = await userDao.getByEmail(email);
-      if (!existUser) {
-        if (email === 'adminCoder@coder.com' && password === 'adminCod3r123') {
-          return await userDao.create({
-            ...user,
-            password: createHash(password),
-            role: 'admin'
-          });
-        }
-        return await this.create({
-          ...user,
-          password: createHash(password),
-        });
-      } else return false;
-    } catch (error) {
-      console.log(error)
-      throw new Error(error)
-    }
+  createUser = async (obj) => {
+  try {
+    const newUser = await userDao.create(obj);
+    if (!newUser) throw new Error("Validation Error!");
+    else return newUser;
+  } catch (error) {
+    console.log(error);
   }
+};
 
   async login(user) {
     try {
-      const userExist = await userDao.loginUser(user);
+      const userExist = await userDao.login(user);
       if(userExist) return this.#generateToken(userExist);
       else return false;
     } catch (error) {
       console.log(error);
     }
   }
-
-  async getByIdUser(id){
-  try {
-    const user = await userDao.getById(id);
-    if (!user) return false;
-    else return user;
-  } catch (error) {
-    console.log(error);
-  }
-};
 }

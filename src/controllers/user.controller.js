@@ -1,7 +1,9 @@
 import Controllers from "./class.controller.js";
 import UserService from "../services/user.services.js";
-import { createResponse } from "../utils.js";
 const userService = new UserService();
+import UserMongoDao from "../dao/mongoDB/users/user.dao.js";
+const userDao = new UserMongoDao();
+import { createResponse } from "../utils.js";
 
 export default class UserController extends Controllers {
   constructor() {
@@ -9,14 +11,20 @@ export default class UserController extends Controllers {
   }
 
   register = async (req, res, next) => {
-    try {
-      const newUser = await userService.register(req.body);
-      if (!newUser) createResponse(res, 404, "User already exist");
-      else createResponse(res, 200, newUser);
-    } catch (error) {
-      next(error.message);
-    }
-  };
+  try {
+    const { first_name, last_name, email, age, password } = req.body;
+    const exist = await userDao.getByEmail(email);
+    if (exist) return res.status(400).json({ msg: "User already exists" });
+    const user = { first_name, last_name, email, age, password };
+    const newUser = await userDao.createUser(user);
+    res.json({
+      msg: "Register OK",
+      newUser,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 
   login = async (req, res, next) => {
     try {
