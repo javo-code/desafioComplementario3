@@ -14,10 +14,10 @@ export const generateTicket = async (userId, cartId) => {
     
     const user = await userDao.getById(userId);
     if(!user) return false;
-    
+        
     const cart = await cartDao.getById(cartId);
     if(!cart) return false;
-
+    
     let amountAcc = 0;
     for (const p of cart.products) {
       const idProd = p.product._id.toString();
@@ -29,7 +29,7 @@ export const generateTicket = async (userId, cartId) => {
         amountAcc += amount;
       }
     }
-
+    
     //crear el ticket
     const ticket = await ticketDao.create({
       code: uuidv4(),

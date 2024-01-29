@@ -1,11 +1,19 @@
 import './config/connection.js';
 import express from 'express';
-import morgan from 'morgan';
+import morgan, { compile } from 'morgan';
 import MainRouter from "./routes/index.js";
 const mainRouter = new MainRouter();
 import { errorHandler } from './middlewares/errorHandler.js';
+import { Command } from "commander";
 
 const app = express();
+
+const commander = new Command();
+
+commander.option("-m <mode>", "mode server", "dev")
+commander.parse();
+
+console.log("options", commander.opts());
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
@@ -15,7 +23,11 @@ app.use('/api', mainRouter.getRouter());
 
 app.use(errorHandler);
 
-const PORT = 8080;
+const PORT = process.argv[2];
+const mode = commander.opts().m
 
-app.listen(PORT, () => console.log(`SERVER UP ON PORT ${PORT}`));
+app.listen(PORT, () => {
+    console.log(`SERVER UP ON PORT ${PORT}`);
+    console.log(`Mode: ${mode}`);
+});
 
