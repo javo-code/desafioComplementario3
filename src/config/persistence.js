@@ -1,42 +1,42 @@
-//-------------------📌MONGO
-import * as ProductDaoMongo from '../dao/mongoDB/products/product.dao.js'
-import * as UserDaoMongo from '../dao/mongoDB/users/user.dao.js'
-import * as CartDaoMongo from '../dao/mongoDB/cart/cart.dao.js'
+import ProductFSDao from "../dao/fileSystem/products.dao.js";
+import CartFSDao from "../dao/fileSystem/carts.dao.js";
+import UserFSDao from "../dao/fileSystem/users.dao.js";
 
-//-------------------📌FS
-import * as ProductDaoFS from '../dao/fileSystem/products.dao.js'
-import * as UserDaoFS from '../dao/fileSystem/users.dao.js'
-import * as CartDaoFS from '../dao/fileSystem/carts.dao.js'
+import ProductMongoDao from "../dao/mongoDB/products/product.dao.js";
+import CartMongoDao from "../dao/mongoDB/cart/cart.dao.js";
+import UserMongoDao from "../dao/mongoDB/users/user.dao.js";
 
-import "dotenv/config.js"
-import { initMongoDB } from "../config/connection.js";
+import "dotenv/config"
+import { initMongoDB } from "./connection.js";
 
-let userDao;
-let prodDao;
 let cartDao;
-let persistence = process.argv[3];
+let prodDao;
+let userDao;
+
+const persistence = process.env.PERSISTENCE;
 
 switch (persistence) {
-    case 'FS':
-        userDao = UserDaoFS;
-        prodDao = ProductDaoFS;
-        cartDao = CartDaoFS;
-        console.log(persistence);
+    case "FS":
+        userDao = new UserFSDao("../dao/fileSystem/users.json");
+        prodDao = new ProductFSDao("../dao/fileSystem/porducts.json");
+        cartDao = new CartFSDao ("../dao/fileSystem/carts.json");
+        console.log("📚 La PERSISTENCIA actual es => ", persistence);
         break;
-    case 'MONGO':
+    case "MONGO":
         await initMongoDB();
-        userDao = UserDaoMongo
-        prodDao = ProductDaoMongo;
-        cartDao = CartDaoMongo;
+        userDao = new UserMongoDao();
+        prodDao = new ProductMongoDao();
+        cartDao = new CartMongoDao();
+        console.log("📚 La PERSISTENCIA actual es => ", persistence);
+        break;
+
+    default:
+        await initMongoDB();
+        userDao = new ProductMongoDao();
+        prodDao = new CartMongoDao();
+        cartDao = new UserMongoDao();
         console.log(persistence);
         break;
-    default:  
-        userDao = UserDaoFS;
-        prodDao = ProductDaoFS;
-        cartDao = CartDaoFS;
-        persistence = 'FS'
-        console.log(persistence);
-        break; 
-};
+}
 
-export default { prodDao, userDao, cartDao };
+export default { prodDao, cartDao, userDao}

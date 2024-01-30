@@ -1,6 +1,5 @@
-import './config/connection.js';
 import express from 'express';
-import morgan, { compile } from 'morgan';
+import morgan from 'morgan';
 import MainRouter from "./routes/index.js";
 const mainRouter = new MainRouter();
 import { errorHandler } from './middlewares/errorHandler.js';
@@ -28,7 +27,6 @@ const PORT = process.argv[2] || 8080;
 const mode = commander.opts().m
 
 app.listen(PORT, () => {
-    console.log(`SERVER UP ON PORT ${PORT}`);
-    console.log(`Mode: ${mode}`);
+    console.log(`🚀 SERVER UP ON PORT ${PORT} IN ${mode} MODE` );
 });
 

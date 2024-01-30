@@ -1,6 +1,6 @@
 import fs from "fs";
 
-export default class ProductDaoFS {
+export default class ProductFSDao {
   constructor(path) {
     this.path = path;
   }
@@ -93,6 +93,6 @@ export default class ProductDaoFS {
   }
 }
 
-const productDaoFS = new ProductDaoFS("./src/data/products.json")
+const productDaoFS = new ProductFSDao("./src/data/products.json")
 
 export { productDaoFS }

@@ -1,6 +1,6 @@
 import Services from "./class.services.js";
-import UserMongoDao from "../dao/mongoDB/users/user.dao.js";
-const userDao = new UserMongoDao();
+import persistence from "../config/persistence.js";
+const { userDao } = persistence;
 import jwt from "jsonwebtoken";
 import "dotenv/config";
 

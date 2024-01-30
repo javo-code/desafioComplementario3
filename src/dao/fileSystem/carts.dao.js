@@ -1,9 +1,9 @@
 import fs from "fs";
-import ProductDaoFS from "./products.dao.js";
+import ProductFSDao from "./products.dao.js";
 
-const productDaoFS = new ProductDaoFS("./products.dao.js");
+const productDaoFS = new ProductFSDao("./products.dao.js");
 
-export default class CartDaoFS {
+export default class CartFSDao {
     constructor(path) {
         this.path = path;
     }
@@ -122,6 +122,6 @@ return currentCart;
     }
 }
 
-const cartDaoFS = new CartDaoFS("src/data/carts.json");
+const cartDaoFS = new CartFSDao("src/data/carts.json");
 
 export { cartDaoFS };
