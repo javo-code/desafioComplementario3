@@ -5,6 +5,7 @@ import MainRouter from "./routes/index.js";
 const mainRouter = new MainRouter();
 import { errorHandler } from './middlewares/errorHandler.js';
 import { Command } from "commander";
+import "dotenv/config.js";
 
 const app = express();
 
@@ -23,7 +24,7 @@ app.use('/api', mainRouter.getRouter());
 
 app.use(errorHandler);
 
-const PORT = process.argv[2];
+const PORT = process.argv[2] || 8080;
 const mode = commander.opts().m
 
 app.listen(PORT, () => {
