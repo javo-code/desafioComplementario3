@@ -14,7 +14,7 @@ export default class MongoDao {
 
   async getById(id) {
     try {
-      const response = await this.model.findById(id).populate("products.product");
+      const response = await this.model.findById(id);
       return response;
     } catch (error) {
       console.log(error);
