@@ -13,7 +13,7 @@ let cartDao;
 let prodDao;
 let userDao;
 
-const persistence = process.env.PERSISTENCE;
+const persistence = process.argv[3];
 
 switch (persistence) {
     case "FS":
