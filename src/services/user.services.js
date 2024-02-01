@@ -1,6 +1,6 @@
 import Services from "./class.services.js";
-import persistence from "../config/persistence.js";
-const { userDao } = persistence;
+import factory from "../dao/factory.js";
+const { userDao } = factory;
 import jwt from "jsonwebtoken";
 import "dotenv/config";
 

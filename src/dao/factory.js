@@ -1,15 +1,15 @@
-import ProductFSDao from "../dao/fileSystem/products.dao.js";
-import CartFSDao from "../dao/fileSystem/carts.dao.js";
-import UserFSDao from "../dao/fileSystem/users.dao.js";
-import TicketFSDao from "../dao/fileSystem/ticket.dao.js";
+import ProductFSDao from "./fileSystem/products.dao.js";
+import CartFSDao from "./fileSystem/carts.dao.js";
+import UserFSDao from "./fileSystem/users.dao.js";
+import TicketFSDao from "./fileSystem/ticket.dao.js";
 
-import ProductMongoDao from "../dao/mongoDB/products/product.dao.js";
-import CartMongoDao from "../dao/mongoDB/cart/cart.dao.js";
-import UserMongoDao from "../dao/mongoDB/users/user.dao.js";
-import TicketMongoDao from "../dao/mongoDB/ticket/ticket.dao.js";
+import ProductMongoDao from "./mongoDB/products/product.dao.js";
+import CartMongoDao from "./mongoDB/cart/cart.dao.js";
+import UserMongoDao from "./mongoDB/users/user.dao.js";
+import TicketMongoDao from "./mongoDB/ticket/ticket.dao.js";
 
 import "dotenv/config"
-import { initMongoDB } from "./connection.js";
+import { initMongoDB } from "../config/connection.js";
 
 let cartDao;
 let prodDao;
