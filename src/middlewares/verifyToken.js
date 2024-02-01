@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import { PRIVATE_KEY } from "../jwt/auth.js";
-import UserDaoMongoDB from "../dao/mongoDB/users/user.dao.js";
+import UserDaoMongoDB from "../persistence/daos/mongoDB/users/user.dao.js";
 const userDao = new UserDaoMongoDB();
 
 export const verifyToken = async (req, res, next) => {

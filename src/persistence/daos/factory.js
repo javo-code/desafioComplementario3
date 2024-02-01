@@ -9,7 +9,7 @@ import UserMongoDao from "./mongoDB/users/user.dao.js";
 import TicketMongoDao from "./mongoDB/ticket/ticket.dao.js";
 
 import "dotenv/config"
-import { initMongoDB } from "../config/connection.js";
+import { initMongoDB } from "../../config/connection.js";
 
 let cartDao;
 let prodDao;
@@ -20,10 +20,10 @@ const persistence = process.argv[3];
 
 switch (persistence) {
     case "FS":
-        userDao = new UserFSDao("../dao/fileSystem/users.json");
-        prodDao = new ProductFSDao("../dao/fileSystem/porducts.json");
-        cartDao = new CartFSDao ("../dao/fileSystem/carts.json");
-        ticket= new TicketMongoDao ("../dao/mongoDB/ticket/ticket.dao.js")
+        userDao = new UserFSDao("../daos/fileSystem/users.json");
+        prodDao = new ProductFSDao("../daos/fileSystem/porducts.json");
+        cartDao = new CartFSDao ("../daos/fileSystem/carts.json");
+        ticket= new TicketMongoDao ("../daos/mongoDB/ticket/ticket.dao.js")
         console.log("📚 La PERSISTENCIA actual es => ", persistence);
         break;
     case "MONGO":

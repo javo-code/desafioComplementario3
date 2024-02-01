@@ -1,10 +1,10 @@
-import TicketMongoDao from "../dao/mongoDB/ticket/ticket.dao.js";
+import TicketMongoDao from "../persistence/daos/mongoDB/ticket/ticket.dao.js";
 const ticketDao = new TicketMongoDao();
-import UserMongoDao from "../dao/mongoDB/users/user.dao.js";
+import UserMongoDao from "../persistence/daos/mongoDB/users/user.dao.js";
 const userDao = new UserMongoDao();
-import CartMongoDao from "../dao/mongoDB/cart/cart.dao.js";
+import CartMongoDao from "../persistence/daos/mongoDB/cart/cart.dao.js";
 const cartDao = new CartMongoDao();
-import ProductMongoDao from "../dao/mongoDB/products/product.dao.js";
+import ProductMongoDao from "../persistence/daos/mongoDB/products/product.dao.js";
 const prodDao = new ProductMongoDao();
 
 import { v4 as uuidv4 } from 'uuid';

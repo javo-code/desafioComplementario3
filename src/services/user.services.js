@@ -1,5 +1,5 @@
 import Services from "./class.services.js";
-import factory from "../dao/factory.js";
+import factory from "../persistence/daos/factory.js";
 const { userDao } = factory;
 import jwt from "jsonwebtoken";
 import "dotenv/config";
