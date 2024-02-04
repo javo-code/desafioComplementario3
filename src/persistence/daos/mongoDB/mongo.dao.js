@@ -3,7 +3,7 @@ export default class MongoDao {
     this.model = model;
   }
 
-  async getAll(page = 1, limit = 5) {
+  async getAll(page = 1, limit = 3) {
     try {
       const response = await this.model.paginate({}, {page, limit});
       return response;

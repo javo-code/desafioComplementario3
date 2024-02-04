@@ -1,4 +1,4 @@
-import mongoose, { Schema, model } from "mongoose";
+import { Schema, model } from "mongoose";
 import mongoosePaginate from "mongoose-paginate-v2";
 
 const userCollection = "users";
@@ -33,8 +33,8 @@ const usersSchema = new Schema({
 
 usersSchema.plugin(mongoosePaginate);
 
-usersSchema.pre("find", function () {
+/* usersSchema.pre("find", function () {
   this.populate("products");
-});
+}); */
 
 export const UserModel = model(userCollection, usersSchema);
