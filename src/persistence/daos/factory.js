@@ -43,15 +43,15 @@ switch (persistence) {
         await initMySqlDB();
         userDao = new UserDaoMySql();
         prodDao = new ProductDaoMySql();
-        console.log(persistence);
+        console.log("📚 La PERSISTENCIA actual es => ", persistence);
         break;
     default:
         await initMongoDB();
-        userDao = new ProductMongoDao();
-        prodDao = new CartMongoDao();
-        cartDao = new UserMongoDao();
+        userDao = new UserMongoDao();
+        prodDao = new ProductMongoDao();
+        cartDao = new CartMongoDao();
         ticket = new TicketMongoDao();
-        console.log("📚 PERSISTENCIA por defecto => ",persistence);
+        console.log("📚 PERSISTENCIA por defecto => 'MONGO'");
         break;
 }
 

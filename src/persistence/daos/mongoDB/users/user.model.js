@@ -1,4 +1,5 @@
-import { Schema, model } from "mongoose";
+import mongoose, { Schema, model } from "mongoose";
+import mongoosePaginate from "mongoose-paginate-v2";
 
 const userCollection = "users";
 
@@ -6,6 +7,7 @@ const usersSchema = new Schema({
   first_name: {
     type: String,
     required: true,
+    index: true
   },
   last_name: {
     type: String,
@@ -17,8 +19,7 @@ const usersSchema = new Schema({
     unique: true,
   },
   age: {
-    type: Number,
-    required: true,
+    type: Number
   },
   password: {
     type: String,
@@ -30,4 +31,10 @@ const usersSchema = new Schema({
   },
 })
 
-export const UserModel = model(userCollection, usersSchema)
+usersSchema.plugin(mongoosePaginate);
+
+usersSchema.pre("find", function () {
+  this.populate("products");
+});
+
+export const UserModel = model(userCollection, usersSchema);

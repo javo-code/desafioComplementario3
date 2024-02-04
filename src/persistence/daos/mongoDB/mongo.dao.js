@@ -3,9 +3,9 @@ export default class MongoDao {
     this.model = model;
   }
 
-  async getAll() {
+  async getAll(page = 1, limit = 5) {
     try {
-      const response = await this.model.find({});
+      const response = await this.model.paginate({}, {page, limit});
       return response;
     } catch (error) {
       console.log(error);
