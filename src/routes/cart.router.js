@@ -7,16 +7,15 @@ import { verifyToken } from '../middlewares/verifyToken.js';
 const router = Router();
 const controller = new CartController();
 
-router.get("/", controller.getAll);
-router.get("/:id", controller.getById);
-router.post("/", controller.create);
-router.put("/:id", controller.update);
-router.delete("/:id", controller.delete);
-router.post("/:idCart/products/:idProd", controller.addProdToCart);
-router.delete("/:idCart/products/:idProd", controller.removeProdToCart);
-router.put("/:idCart/products/:idProd", controller.updateProdQuantityToCart);
-router.delete("/:id", controller.clearCart);
-
-router.post('/:cartId/purchase', verifyToken, ticketController.generateTicket);
+router.get("/", controller.getAll)
+    .get("/:id", controller.getById)
+    .post("/", controller.create)
+    .put("/:id", controller.update)
+    .delete("/:id", controller.delete)
+    .post("/:idCart/products/:idProd", controller.addProdToCart)
+    .delete("/:idCart/products/:idProd", controller.removeProdToCart)
+    .put("/:idCart/products/:idProd", controller.updateProdQuantityToCart)
+    .delete("/:id", controller.clearCart)
+    .post('/:cartId/purchase', verifyToken, ticketController.generateTicket)
 
 export default router;

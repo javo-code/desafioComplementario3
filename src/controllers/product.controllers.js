@@ -12,7 +12,8 @@ export default class ProductController extends Controllers {
 try {
   const { id } = req.params;
   const prod = await this.service.getProdById(id);
-  if (!prod) return createResponse(res, 404, { method: "create", error: "getById Failes" })
+  if (!prod)
+    createResponse(res, 404, { method: "create", error: "getById Failes" })
   else createResponse(res, 200, prod);
 } catch (error) {
   next(error.message);
